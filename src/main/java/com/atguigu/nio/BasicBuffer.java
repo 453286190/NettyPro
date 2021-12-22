@@ -30,9 +30,9 @@ public class BasicBuffer {
     }
          */
         intBuffer.flip();
-        intBuffer.position(1);//1,2
+        intBuffer.position(1);//0,2,4,6,8   取第二个
         System.out.println(intBuffer.get());
-        intBuffer.limit(3);
+        intBuffer.limit(3);//长度取前三个
         while (intBuffer.hasRemaining()) {
             System.out.println(intBuffer.get());
         }
