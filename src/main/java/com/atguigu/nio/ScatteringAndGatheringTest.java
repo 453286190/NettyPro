@@ -16,7 +16,7 @@ public class ScatteringAndGatheringTest {
         //使用 ServerSocketChannel 和 SocketChannel 网络
 
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        InetSocketAddress inetSocketAddress = new InetSocketAddress(7000);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(7001);
 
         //绑定端口到socket ，并启动
         serverSocketChannel.socket().bind(inetSocketAddress);
@@ -35,6 +35,7 @@ public class ScatteringAndGatheringTest {
             int byteRead = 0;
 
             while (byteRead < messageLength ) {
+                //自动分散到第一个或是第二个buffer中
                 long l = socketChannel.read(byteBuffers);
                 byteRead += l; //累计读取的字节数
                 System.out.println("byteRead=" + byteRead);

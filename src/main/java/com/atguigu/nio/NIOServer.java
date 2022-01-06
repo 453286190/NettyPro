@@ -42,6 +42,8 @@ public class NIOServer {
             //2. selector.selectedKeys() 返回关注事件的集合
             //   通过 selectionKeys 反向获取通道
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
+//            **区别：selector.selectedKey()有事件发生的channel对应的SelectionKey集合，
+//                   selector.keys()所有注册的channel对应的SelectionKey集合
             System.out.println("selectionKeys 数量 = " + selectionKeys.size());
 
             //遍历 Set<SelectionKey>, 使用迭代器遍历
@@ -52,13 +54,12 @@ public class NIOServer {
                 SelectionKey key = keyIterator.next();
                 //根据key 对应的通道发生的事件做相应处理
                 if(key.isAcceptable()) { //如果是 OP_ACCEPT, 有新的客户端连接
-                    //该该客户端生成一个 SocketChannel
+                    //为该客户端生成一个 SocketChannel
                     SocketChannel socketChannel = serverSocketChannel.accept();
                     System.out.println("客户端连接成功 生成了一个 socketChannel " + socketChannel.hashCode());
                     //将  SocketChannel 设置为非阻塞
                     socketChannel.configureBlocking(false);
-                    //将socketChannel 注册到selector, 关注事件为 OP_READ， 同时给socketChannel
-                    //关联一个Buffer
+                    //将socketChannel 注册到selector, 关注事件为 OP_READ， 同时给socketChannel关联一个Buffer
                     socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
 
                     System.out.println("客户端连接后 ，注册的selectionkey 数量=" + selector.keys().size()); //2,3,4..
@@ -70,7 +71,7 @@ public class NIOServer {
                     //通过key 反向获取到对应channel
                     SocketChannel channel = (SocketChannel)key.channel();
 
-                    //获取到该channel关联的buffer
+                    //获取到该channel关联的buffer或者ByteBuffer buffer = ByteBuffer.allocate(1024);
                     ByteBuffer buffer = (ByteBuffer)key.attachment();
                     channel.read(buffer);
                     System.out.println("form 客户端 " + new String(buffer.array()));

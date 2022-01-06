@@ -62,7 +62,7 @@ public class GroupChatClient {
                     if(key.isReadable()) {
                         //得到相关的通道
                        SocketChannel sc = (SocketChannel) key.channel();
-                       //得到一个Buffer
+                       //得到一个Buffer或者ByteBuffer buffer = (ByteBuffer)key.attachment();
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
                         //读取
                         sc.read(buffer);
@@ -73,8 +73,7 @@ public class GroupChatClient {
                 }
                 iterator.remove(); //删除当前的selectionKey, 防止重复操作
             } else {
-                //System.out.println("没有可以用的通道...");
-
+                System.out.println("没有可以用的通道...");
             }
 
         }catch (Exception e) {

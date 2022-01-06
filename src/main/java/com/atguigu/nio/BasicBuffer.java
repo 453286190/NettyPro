@@ -27,8 +27,7 @@ public class BasicBuffer {
         position = 0;
         mark = -1;
         return this;
-    }
-         */
+    }*/
         intBuffer.flip();
         intBuffer.position(1);//0,2,4,6,8   取第二个
         System.out.println(intBuffer.get());
